@@ -8,7 +8,7 @@ SRC_OBJS	=	$(SRC_FILES:.c=.o)
 
 CC		=	clang
 
-CFLAGS		=	-Wall -Wextra -Werror -I -g -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -pthread -fsanitize=address
 
 RM		=	rm -rf
 
