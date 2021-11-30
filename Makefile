@@ -1,6 +1,8 @@
 NAME		=	philo
 
 SRC_FILES	=	src/main.c \
+				src/errors/errors_1.c \
+				src/utils/utils_libft.c \
 
 INCLUDE_PATH	=	include/
 
