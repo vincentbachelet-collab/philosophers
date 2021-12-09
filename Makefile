@@ -3,6 +3,8 @@ NAME		=	philo
 SRC_FILES	=	src/main.c \
 				src/errors/errors_1.c \
 				src/utils/utils_libft.c \
+				src/utils/status_philo.c \
+				src/utils/thread_and_routine.c \
 
 INCLUDE_PATH	=	include/
 
@@ -10,7 +12,7 @@ SRC_OBJS	=	$(SRC_FILES:.c=.o)
 
 CC		=	clang
 
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -pthread -fsanitize=address
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -pthread 
 
 RM		=	rm -rf
 

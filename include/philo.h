@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/30 15:40:27 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/09 16:03:25 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,8 @@ int		errors_start_handling(t_root *infos, char **argv);
 int		ft_atoi(const char *nptr);
 int		ft_isdigit(int c);
 void	ft_putendl_fd(char *s, int fd);
+void	*routine(void *arg);
+int		thread_philo_creation(t_root *infos);
+int		init_infos_philo(t_root *infos, char **argv);
 
 #endif
