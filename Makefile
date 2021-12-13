@@ -1,39 +1,57 @@
 NAME		=	philo
+CC			=	cc -g
+CFLAGS		=	-Wall -Wextra -Werror -fsanitize=thread
+# CFLAGS		=	-Wall -Wextra -Werror -g
+# CFLAGS		=	-Wall -Wextra -Werror -g -fsanitize=thread
+# CFLAGS		=	-Wall -Wextra -Werror -g
+# THREAD_F	=	-lpthread
+RM			=	rm -rf
 
-SRC_FILES	=	src/main.c \
-				src/errors/errors_1.c \
-				src/utils/utils_libft.c \
-				src/utils/status_philo_and_threads.c  \
-				src/utils/thread_create_and_init.c \
-				src/free/free.c \
+SRC_DIR 	= 	src
+SRC		 	=	$(notdir $(shell find $(SRC_DIR) -type f -name *.c))
 
-INCLUDE_PATH	=	include/
+OBJ_DIR		=	src/obj
+OBJ 		= 	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
-SRC_OBJS	=	$(SRC_FILES:.c=.o)
+INC_DIR		=	includes
+INC			=	$(shell find $(INC_DIR) -type f -name "*.h")
 
-CC		=	clang
+IFLAGS 		=	-I $(INC_DIR)
 
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -pthread -fsanitize=thread
+vpath			%.c $(shell find $(SRC_DIR) -type d)
+.SUFFIXES: 		.c .o .h
 
-RM		=	rm -rf
+_YELLOW		=	\033[38;5;184m
+_GREEN		=	\033[38;5;46m
+_RESET		=	\033[0m
+_INFO		=	[$(_YELLOW)INFO$(_RESET)]
+_SUCCESS	=	[$(_GREEN)SUCCESS$(_RESET)]
+_CLEAR		=	\033[2K\c
 
-%.o : %.c
-	@$(CC) -c $(CFLAGS) $< -o $@
+all				:	init $(NAME)
+					@ echo "$(_SUCCESS) Compilation done"
 
-all:			$(NAME)
+init			:
+					@ mkdir -p $(OBJ_DIR)
 
-$(NAME):		$(SRC_OBJS)
-					@$(CC) $(CFLAGS) $(SRC_OBJS) -o $(NAME)
-					@echo "$(NAME) created"
 
-clean:
-			@$(RM) $(SRC_OBJS)
-			@echo "$(NAME) .o deleted"
+$(NAME)			:	$(OBJ) $(INC)
+					@ echo "$(_INFO) Initialize $(NAME)"
+				 	@ $(CC) $(CFLAGS) $(THREAD_F) -o $(NAME) $(OBJ)
 
-fclean:			clean
-				@$(RM) $(NAME) 
-				@echo "$(NAME) deleted"
+$(OBJ_DIR)/%.o	:	%.c
+					@ echo "\t$(_YELLOW)Compiling$(_RESET) $*.c\r\c"
+					@ $(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+					@ echo "$(_CLEAR)"
 
-re:			fclean all
+clean			:
+					@ echo "$(_INFO) Deleted object files and directories"
+					@ $(RM) $(OBJ_DIR)
+					@ echo "$(_SUCCESS) Working directory clean"
 
-.PHONY:			all clean fclean re
+fclean			:	clean
+					@ $(RM) $(NAME)
+
+re				: 	fclean all
+
+.PHONY: 		all fclean clean re init libft

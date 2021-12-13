@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 17:33:12 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/10 18:18:26 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/13 14:56:10 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	free_malloc_and_exit(t_root *infos, int i)
 	// 	free(infos->fork);
 	if (i == 0)
 		exit (0);
-	else 
+	else
 		exit (1);
 }
-
