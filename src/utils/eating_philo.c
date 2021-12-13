@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/13 18:40:29 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/13 18:59:36 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,12 @@ int	check_if_number_of_has_been_eaten(t_philo *philo)
 	int	i;
 
 	i = 0;
-	while (++i <= philo->number_of_philosophers) // je pthreadcreate et gere chacun de mes philo
+	if (philo->id == philo->number_of_philosophers) // a ne pas init ici
 	{
-		if (philo[i].has_eaten
-			== philo->number_of_times_each_philosopher_must_eat) // a ne pas init ici
-		{
-			;
-		}
+		if (philo->has_eaten == philo->number_of_times_each_philosopher_must_eat)
+			return (TRUE); 	
 		else
 			return (FALSE);
 	}
-	return (TRUE); 
+	return (FALSE);
 }
