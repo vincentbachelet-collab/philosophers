@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:11 by vbachele          #+#    #+#             */
-/*   Updated: 2021/11/29 17:22:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/10 17:25:14 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,3 +69,25 @@ int main(int argc, char **argv)
 	// printf("ca a pris %ld ms", (end.tv_usec - start.tv_usec));
 	return (0);
 }
+
+
+typedef	struct philo
+{
+	int				fork_left_hand;
+	int				fork_right_hand;
+	pthread_t 		thread[255]; // le philo dans le thread
+	struct	s_root	*root;
+} t_philo;
+
+
+typedef struct s_root {
+	int				number_of_philosophers;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_times_each_philosopher_must_eat;
+	pthread_t		th[255];
+	pthread_mutex_t	*fork; // les fourchettes immobillises qu'on va calculer grace a un ID
+	t_philo			*philo;
+}
+t_root;

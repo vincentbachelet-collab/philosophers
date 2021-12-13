@@ -3,8 +3,9 @@ NAME		=	philo
 SRC_FILES	=	src/main.c \
 				src/errors/errors_1.c \
 				src/utils/utils_libft.c \
-				src/utils/status_philo.c \
-				src/utils/thread_and_routine.c \
+				src/utils/status_philo_and_threads.c  \
+				src/utils/thread_create_and_init.c \
+				src/free/free.c \
 
 INCLUDE_PATH	=	include/
 
@@ -12,7 +13,7 @@ SRC_OBJS	=	$(SRC_FILES:.c=.o)
 
 CC		=	clang
 
-CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -pthread 
+CFLAGS		=	-Wall -Wextra -Werror -I$(INCLUDE_PATH) -g -pthread -fsanitize=thread
 
 RM		=	rm -rf
 
