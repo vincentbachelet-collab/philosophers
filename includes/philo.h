@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 15:16:57 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:25:46 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ typedef struct philo
 	int				fork_right_hand;
 	int				id;
 	int				has_eaten;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				number_of_times_each_philosopher_must_eat;
-	int				number_of_philosophers;
-	struct timeval	start;
-	struct timeval	end;
 	struct s_root	*root;
 	pthread_t		thread;
 }	t_philo;
@@ -45,6 +38,8 @@ typedef struct s_root {
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				number_of_times_each_philosopher_must_eat;
+	struct timeval	start;
+	struct timeval	end;
 	pthread_mutex_t	fork[255];
 	pthread_mutex_t	sleep[255];
 	t_philo			philo[255];

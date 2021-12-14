@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:52:52 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 15:49:38 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:57:37 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,19 @@ int	init_infos_philo(t_root *infos, char **argv)
 		ft_putendl_fd("philophers can't be less than one", 2);
 	if (infos->number_of_philosophers >= 200)
 		ft_putendl_fd("philophers can't be more than 200", 2);
-	infos->time_to_die = ft_atoi(argv[2]);
+	infos->time_to_die = ft_atoi(argv[2]) * 1000;
 	if (infos->time_to_die < 0)
 		ft_putendl_fd("args can't be negative", 2);
-	infos->time_to_eat = ft_atoi(argv[3]);
+	infos->time_to_eat = ft_atoi(argv[3]) * 1000;
 	if (infos->time_to_eat < 0)
 		ft_putendl_fd("args can't be negative", 2);
-	infos->time_to_sleep = ft_atoi(argv[4]);
+	infos->time_to_sleep = ft_atoi(argv[4]) * 1000;
 	if (infos->time_to_sleep < 0)
 		ft_putendl_fd("args can't be negative", 2);
 	infos->number_of_times_each_philosopher_must_eat = atoi(argv[5]);
 	if (infos->number_of_times_each_philosopher_must_eat < 0)
 		ft_putendl_fd("args can't be negative", 2);
+	gettimeofday(&infos->start, 0);
 	return (0);
 }
 
-void	init_count_has_eaten(t_root *infos)
-{
-	int	i;
-	
-	i = 0;
-	while (++i <= infos->number_of_philosophers) // je pthreadcreate et gere chacun de mes philo
-	{
-		if (gettimeofday(&infos->philo[i].start, 0) < 0)
-		{
-			printf("error\n");
-			free_malloc_and_exit(infos, 1);
-		}
-		infos->philo[i].has_eaten = 0; // a ne pas init ici 
-		infos->philo[i].time_to_die = infos->time_to_die * 1000;
-		infos->philo[i].time_to_eat = infos->time_to_eat * 1000;
-		printf("infos->philo[i].time_to_eat == %d\n", infos->philo[i].time_to_eat);
-		infos->philo[i].time_to_sleep = infos->time_to_sleep * 1000;
-		infos->philo[i].number_of_times_each_philosopher_must_eat = infos->number_of_times_each_philosopher_must_eat;
-		infos->philo[i].number_of_philosophers = infos->number_of_philosophers;
-	}
-	infos->philo[i].root = infos;
-}
