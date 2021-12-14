@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 17:19:38 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 18:34:44 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ void	philo_left_right_fork_init(t_root *infos)
 
 int	p_thread_create_join(t_root *infos)
 {
-	// int	i;
-
-	// i = 0;
+	
 	philo_left_right_fork_init(infos);
 	if (p_thread_create(infos) == -1)
 		free_malloc_and_exit(infos, 1);
@@ -83,12 +81,9 @@ int	p_thread_create_join(t_root *infos)
 
 int	thread_philo_creation(t_root *infos)
 {
-	if (pthread_mutex_init(infos->fork, NULL) != 0)
-	{
-		ft_putendl_fd("Error_mutex_init\n", 2);
-		free_malloc_and_exit(infos, 1);
-	}
-	if (pthread_mutex_init(infos->sleep, NULL) != 0)
+	if (pthread_mutex_init(infos->sleep, NULL) != 0 
+		|| pthread_mutex_init(infos->death, NULL) != 0
+		|| pthread_mutex_init(infos->fork, NULL) != 0)
 	{
 		ft_putendl_fd("Error_mutex_init\n", 2);
 		free_malloc_and_exit(infos, 1);
@@ -97,5 +92,6 @@ int	thread_philo_creation(t_root *infos)
 		free_malloc_and_exit(infos, 1);
 	pthread_mutex_destroy(infos->fork);
 	pthread_mutex_destroy(infos->sleep);
+	pthread_mutex_destroy(infos->death);
 	return (0);
 }

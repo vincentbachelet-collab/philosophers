@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 17:25:46 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 18:03:46 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_root {
 	struct timeval	end;
 	pthread_mutex_t	fork[255];
 	pthread_mutex_t	sleep[255];
+	pthread_mutex_t	death[255];
 	t_philo			philo[255];
 }	t_root;
 
@@ -61,5 +62,6 @@ void	init_count_has_eaten(t_root *infos);
 int		check_if_number_of_has_been_eaten(t_philo *philo);
 int		check_if_philo_is_dead(t_philo *philo);
 void	*philo_is_sleeping(t_philo *philo);
+int		get_current_time(t_philo *philo);
 
 #endif

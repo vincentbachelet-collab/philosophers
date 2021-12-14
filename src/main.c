@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:55:25 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 14:24:27 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:57:16 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	main(int argc, char **argv)
 			"1.number_of_philosophers| 2.time_to_die |3.time_to_eat"
 			"|4.time_to_sleep"
 			"| 5.[number_of_times_each_philosopher_must_eat]\n", 2);
-	// gettimeofday(&end, 0);
-	// printf("temps total ecoule en ms == %ld ms\n", end.tv_usec - start.tv_usec);
 	free_malloc_and_exit(infos, 0);
 	return (0);
 }
