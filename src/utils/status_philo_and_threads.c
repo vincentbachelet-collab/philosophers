@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:52:51 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 19:02:45 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 19:37:00 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		get_current_time(t_philo *philo)
 {
 	int current_time;
 	
+	gettimeofday(&philo->root->end, 0);
 	current_time = (philo->root->end.tv_sec * 1000
 		+ philo->root->end.tv_usec / 1000) \
 		- (philo->root->start.tv_sec * 1000 + philo->root->start.tv_usec / 1000);
@@ -29,7 +30,6 @@ void	*philo_is_eating(t_philo *philo)
 	
 	pthread_mutex_lock(&philo->root->fork[philo->fork_left_hand]);
 	pthread_mutex_lock(&philo->root->fork[philo->fork_right_hand]);
-	gettimeofday(&philo->root->end, 0);
 	current_time = get_current_time(philo);
 	printf("%d ms: philo %d has taken a fork %d\n",
 		current_time, philo->id, philo->fork_right_hand);
@@ -53,7 +53,6 @@ void	*philo_is_sleeping(t_philo *philo)
 	int current_time;
 
 	pthread_mutex_lock(&philo->root->sleep[philo->id]);
-	gettimeofday(&philo->root->end, 0);
 	current_time = get_current_time(philo);
 	printf("%d ms: philo %d is sleeping\n", current_time, philo->id);
 	usleep(philo->root->time_to_sleep);
@@ -64,23 +63,23 @@ void	*philo_is_sleeping(t_philo *philo)
 void	*philo_has_taken_a_fork(void *arg)
 {
 	t_philo	*philo;
-	t_root	*infos;
 	int		current_time;
-	int		death;
 
 	philo = ((t_philo *)arg);
-	infos = philo->root;
-	death = FALSE;
-	while (death == FALSE) // rajouter condition tant que philo non mort
+	if (philo->root->time_to_die < philo->root->time_to_eat)
+	{
+		printf("%d ms: philo %d is DEAD\n", get_current_time(philo), philo->id);
+		exit (1);
+	}
+	while (check_if_philo_is_dead(philo) != TRUE) // rajouter condition tant que philo non mort
 	{
 		if (philo->id % 2 == 0)
 			usleep(50000);
 		philo_is_eating(philo);
-		check_if_philo_is_dead(philo);
 		philo_is_sleeping(philo);
-		gettimeofday(&infos->end, 0);
 		current_time = get_current_time(philo);
 		printf("%d ms: philo %d is thinking\n", current_time, philo->id);
 	}
+	// exit(1);
 	return (0);
 }
