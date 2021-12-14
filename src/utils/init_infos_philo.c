@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:52:52 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/13 18:37:51 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:49:38 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,18 @@ void	init_count_has_eaten(t_root *infos)
 	i = 0;
 	while (++i <= infos->number_of_philosophers) // je pthreadcreate et gere chacun de mes philo
 	{
+		if (gettimeofday(&infos->philo[i].start, 0) < 0)
+		{
+			printf("error\n");
+			free_malloc_and_exit(infos, 1);
+		}
 		infos->philo[i].has_eaten = 0; // a ne pas init ici 
-		infos->philo[i].time_to_die = infos->time_to_die;
-		infos->philo[i].time_to_eat = infos->time_to_eat;
-		infos->philo[i].time_to_sleep = infos->time_to_sleep;
+		infos->philo[i].time_to_die = infos->time_to_die * 1000;
+		infos->philo[i].time_to_eat = infos->time_to_eat * 1000;
+		printf("infos->philo[i].time_to_eat == %d\n", infos->philo[i].time_to_eat);
+		infos->philo[i].time_to_sleep = infos->time_to_sleep * 1000;
 		infos->philo[i].number_of_times_each_philosopher_must_eat = infos->number_of_times_each_philosopher_must_eat;
 		infos->philo[i].number_of_philosophers = infos->number_of_philosophers;
 	}
+	infos->philo[i].root = infos;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   eating_philo.c                                     :+:      :+:    :+:   */
+/*   eating_and_death_philo.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/13 18:59:36 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:44:34 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,16 @@ int	philo_eat_pair_impair(t_root *infos)
 
 int	check_if_number_of_has_been_eaten(t_philo *philo)
 {
-	int	i;
+	// int	i;
+	int j;
 
-	i = 0;
-	if (philo->id == philo->number_of_philosophers) // a ne pas init ici
+	// i = 0;
+	j = 0;
+	if (philo->number_of_philosophers % 2 == 0)
+		j = philo->number_of_philosophers;
+	else
+		j = philo->number_of_philosophers - 1;
+	if (philo->id == j) // a ne pas init ici
 	{
 		if (philo->has_eaten == philo->number_of_times_each_philosopher_must_eat)
 			return (TRUE); 	
@@ -45,4 +51,16 @@ int	check_if_number_of_has_been_eaten(t_philo *philo)
 			return (FALSE);
 	}
 	return (FALSE);
+}
+
+int	check_if_philo_is_dead(t_philo *philo)
+{
+	// struct timeval	start;
+	
+	gettimeofday(&philo->start, 0);
+	// while (philo->start < philo->time_to_die)
+	// {
+		
+	// }
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/13 18:02:36 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:44:56 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	philo_left_right_fork_init(t_root *infos)
 
 int	p_thread_create_join(t_root *infos)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	philo_left_right_fork_init(infos);
 	if (philo_eat_pair_impair(infos) == -1)
 		free_malloc_and_exit(infos, 1);

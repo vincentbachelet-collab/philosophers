@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/13 18:37:07 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/14 15:16:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct philo
 	int				time_to_sleep;
 	int				number_of_times_each_philosopher_must_eat;
 	int				number_of_philosophers;
+	struct timeval	start;
+	struct timeval	end;
 	struct s_root	*root;
 	pthread_t		thread;
 }	t_philo;
@@ -62,4 +64,7 @@ int		philo_eat_pair_impair(t_root *infos);
 int		p_thread_create_join(t_root *infos);
 void	init_count_has_eaten(t_root *infos);
 int		check_if_number_of_has_been_eaten(t_philo *philo);
+int		check_if_philo_is_dead(t_philo *philo);
+void	*philo_is_sleeping(t_philo *philo);
+
 #endif
