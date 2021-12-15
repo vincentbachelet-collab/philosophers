@@ -6,11 +6,16 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:55:25 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 17:57:16 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:41:12 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+// int	check_death(t_root *infos)
+// {
+	
+// }
 
 int	main(int argc, char **argv)
 {
@@ -22,6 +27,8 @@ int	main(int argc, char **argv)
 		errors_start_handling(infos, argv);
 		init_infos_philo(infos, argv);
 		thread_philo_creation(infos);
+		printf("SALUT\n");
+		// check_death(&infos);
 	}
 	else
 		ft_putendl_fd("Wrong number of arguments, it sould be 4.\n"

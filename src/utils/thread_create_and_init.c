@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 18:34:44 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:19:53 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@ int	p_thread_join(t_root *infos)
 {
 	int i; 
 
-	i = 1;
-	while (i <= infos->number_of_philosophers)
+	i = 0;
+	while (++i <= infos->number_of_philosophers)
 	{
 		if (pthread_join(infos->philo[i].thread, 0) != 0)
 		{
 			ft_putendl_fd("Error_pthread_join\n", 2);
 			return (1);
 		}
-		i++;
 	}
 	return (0);
 }
@@ -33,8 +32,8 @@ int	p_thread_create(t_root *infos)
 {
 	int i;
 	
-	i = 1;
-	while (i <= infos->number_of_philosophers)
+	i = 0;
+	while (++i <= infos->number_of_philosophers)
 	{
 		if (pthread_create(&infos->philo[i].thread, NULL,
 			&philo_has_taken_a_fork, &infos->philo[i]) != 0)
@@ -42,7 +41,6 @@ int	p_thread_create(t_root *infos)
 			ft_putendl_fd("Error_pthread_create_init\n", 2);
 			return (1);
 		}
-		i ++;
 	}
 	return (0);
 }
@@ -64,6 +62,7 @@ void	philo_left_right_fork_init(t_root *infos)
 		else if (infos->philo[i].id == 1)
 			infos->philo[i].fork_right_hand = 1;
 		infos->philo[i].has_eaten = 0;
+		infos->philo[i].last_meal = 0;
 		infos->philo[i].root = infos;
 	}
 }
@@ -72,8 +71,10 @@ int	p_thread_create_join(t_root *infos)
 {
 	
 	philo_left_right_fork_init(infos);
-	if (p_thread_create(infos) == -1)
+	if (p_thread_create(infos) == 1)
 		free_malloc_and_exit(infos, 1);
+	printf("SALUT\n");
+	check_if_philo_is_dead(infos);
 	if (p_thread_join(infos) != 0)
 		free_malloc_and_exit(infos, 1);
 	return (0);

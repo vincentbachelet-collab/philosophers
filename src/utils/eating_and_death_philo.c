@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 15:35:55 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:22:55 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,31 @@
 
 int	check_if_number_of_has_been_eaten(t_philo *philo)
 {
-	int j;
-
-	j = 0;
-	if (philo->root->number_of_philosophers % 2 == 0)
-		j = philo->root->number_of_philosophers;
-	else
-		j = philo->root->number_of_philosophers - 1;
-	if (philo->id == j) // a ne pas init ici
+	if ((philo->id == philo->root->number_of_philosophers)
+		&& (philo->root->number_of_times_each_philosopher_must_eat 
+		== philo->has_eaten))
 	{
-		if (philo->has_eaten == philo->root->number_of_times_each_philosopher_must_eat)
-			return (TRUE); 	
-		else
-			return (FALSE);
+		printf("EVERYONE IS FED, congratulations\n");
+		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	check_if_philo_is_dead(t_philo *philo)
-{
-	struct timeval	count;
-	int				time_since_last_lunch;
-	int				current_time;
-	
-	time_since_last_lunch = 0;
-	pthread_mutex_lock(&philo->root->death[philo->id]);
-	current_time = get_current_time(philo);
-	gettimeofday(&count, 0);
-	while (time_since_last_lunch <= philo->root->time_to_eat)
+int	check_if_philo_is_dead(t_root *infos)
+{	
+	// int i;
+
+	// i = 0;
+	(void) infos;
+	pthread_mutex_lock(&infos->death[infos->philo->id]);
+	printf("infos->philo[infos->philo->id].last_meal == %d", infos->philo[infos->philo->id].last_meal);
+	if (infos->philo[infos->philo->id].last_meal - get_current_time(infos->philo) >= infos->time_to_die)
 	{
-		usleep(50);
-		time_since_last_lunch = (philo->root->end.tv_sec * 1000
-		+ philo->root->end.tv_usec / 1000) \
-		- ( count.tv_sec * 1000 +  count.tv_usec / 1000);
-		if	(time_since_last_lunch == philo->root->time_to_die)
-		{
-			printf("%d ms: philo %d is DEAD\n", current_time, philo->id);
-			return (TRUE);
-		}
-		gettimeofday(&philo->root->end, 0);
+		// usleep(50);
+		// printf("%d ms: philo %d is DEAD\n", get_current_time(infos->philo), infos->philo->id);
+		// infos->philo->id = philo->root->id_dead_philo;
+		infos->dead_philo = 1;
 	}
-	pthread_mutex_unlock(&philo->root->death[philo->id]);
+		pthread_mutex_unlock(&infos->death[infos->philo->id]);
 	return (FALSE);
 }

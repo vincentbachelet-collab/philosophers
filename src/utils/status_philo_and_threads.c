@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:52:51 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 19:37:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:20:12 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ int		get_current_time(t_philo *philo)
 	return (current_time);
 }
 
-void	*philo_is_eating(t_philo *philo)
+int	philo_is_eating(t_philo *philo)
 {
 	
 	int current_time;
-	
 	pthread_mutex_lock(&philo->root->fork[philo->fork_left_hand]);
 	pthread_mutex_lock(&philo->root->fork[philo->fork_right_hand]);
 	current_time = get_current_time(philo);
@@ -38,11 +37,7 @@ void	*philo_is_eating(t_philo *philo)
 	printf("%d ms: philo %d is eating\n", current_time, philo->id);
 	usleep(philo->root->time_to_eat);
 	philo->has_eaten++;
-	if (check_if_number_of_has_been_eaten(philo) == TRUE)
-	{
-		printf("EVERYONE IS FED, congratulations\n"); // ne pas oublier de break ou free ici
-		exit (1);
-	}
+	philo->last_meal = get_current_time(philo);
 	pthread_mutex_unlock(&philo->root->fork[philo->fork_right_hand]);
 	pthread_mutex_unlock(&philo->root->fork[philo->fork_left_hand]);
 	return (0);
@@ -66,20 +61,23 @@ void	*philo_has_taken_a_fork(void *arg)
 	int		current_time;
 
 	philo = ((t_philo *)arg);
-	if (philo->root->time_to_die < philo->root->time_to_eat)
-	{
-		printf("%d ms: philo %d is DEAD\n", get_current_time(philo), philo->id);
-		exit (1);
-	}
-	while (check_if_philo_is_dead(philo) != TRUE) // rajouter condition tant que philo non mort
-	{
+	// gettimeofday(&philo->count, 0);
+	// while (check_if_philo_is_dead(philo) == FALSE)
+	// {
 		if (philo->id % 2 == 0)
-			usleep(50000);
-		philo_is_eating(philo);
-		philo_is_sleeping(philo);
-		current_time = get_current_time(philo);
-		printf("%d ms: philo %d is thinking\n", current_time, philo->id);
-	}
-	// exit(1);
+			usleep(5000);
+		while(philo->root->dead_philo == 0)
+		{
+			philo_is_eating(philo);
+			printf("\n\n infos->philo->last_meal == %d\n\n", philo->last_meal);
+			if (check_if_number_of_has_been_eaten(philo) == TRUE)
+				return (0);
+			philo_is_sleeping(philo);
+			current_time = get_current_time(philo);
+			printf("%d ms: philo %d is thinking\n", current_time, philo->id);
+			if (philo->has_eaten == philo->root->number_of_times_each_philosopher_must_eat)
+				return (0);
+		}
+	// }
 	return (0);
 }

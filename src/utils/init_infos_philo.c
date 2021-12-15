@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:52:52 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 15:57:37 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:10:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@ int	init_infos_philo(t_root *infos, char **argv)
 	infos->time_to_sleep = ft_atoi(argv[4]) * 1000;
 	if (infos->time_to_sleep < 0)
 		ft_putendl_fd("args can't be negative", 2);
-	infos->number_of_times_each_philosopher_must_eat = atoi(argv[5]);
-	if (infos->number_of_times_each_philosopher_must_eat < 0)
-		ft_putendl_fd("args can't be negative", 2);
+	if (argv[5])
+	{
+		infos->number_of_times_each_philosopher_must_eat = atoi(argv[5]);
+			if (infos->number_of_times_each_philosopher_must_eat < 0)
+				ft_putendl_fd("args can't be negative", 2);
+	}
 	gettimeofday(&infos->start, 0);
 	return (0);
 }
