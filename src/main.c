@@ -6,11 +6,16 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:55:25 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 17:57:16 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 22:57:45 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+// int	check_death(t_root *infos)
+// {
+	
+// }
 
 int	main(int argc, char **argv)
 {

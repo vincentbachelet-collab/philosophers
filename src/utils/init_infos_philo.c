@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:52:52 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 13:10:57 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 23:11:34 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_infos_philo(t_root *infos, char **argv)
 		ft_putendl_fd("philophers can't be less than one", 2);
 	if (infos->number_of_philosophers >= 200)
 		ft_putendl_fd("philophers can't be more than 200", 2);
-	infos->time_to_die = ft_atoi(argv[2]) * 1000;
+	infos->time_to_die = ft_atoi(argv[2]) * 1;
 	if (infos->time_to_die < 0)
 		ft_putendl_fd("args can't be negative", 2);
 	infos->time_to_eat = ft_atoi(argv[3]) * 1000;

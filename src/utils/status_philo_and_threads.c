@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:52:51 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 13:21:13 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 00:15:57 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	philo_is_eating(t_philo *philo)
 {
 	
 	int current_time;
-	
 	pthread_mutex_lock(&philo->root->fork[philo->fork_left_hand]);
 	pthread_mutex_lock(&philo->root->fork[philo->fork_right_hand]);
 	current_time = get_current_time(philo);
@@ -38,6 +37,7 @@ int	philo_is_eating(t_philo *philo)
 	printf("%d ms: philo %d is eating\n", current_time, philo->id);
 	usleep(philo->root->time_to_eat);
 	philo->has_eaten++;
+	philo->last_meal = get_current_time(philo);
 	pthread_mutex_unlock(&philo->root->fork[philo->fork_right_hand]);
 	pthread_mutex_unlock(&philo->root->fork[philo->fork_left_hand]);
 	return (0);
@@ -61,14 +61,22 @@ void	*philo_has_taken_a_fork(void *arg)
 	int		current_time;
 
 	philo = ((t_philo *)arg);
-	// if (philo->root->time_to_die < philo->root->time_to_eat)
+	// if (philo->root->dead_philo == 1)
 	// {
-	// 	printf("%d ms: philo %d is DEAD\n", get_current_time(philo), philo->id);
-	// 	exit (1);
+	// 	exit(1);
 	// }
-	while (philo->root->dead_philo != 1) // rajouter condition tant que philo non mort
+	// check_if_philo_is_dead(philo);
+	// if (philo->id % 2 == 0)
+	// 	usleep(5000);
+	check_if_philo_is_dead(philo);
+	while(philo->root->dead_philo == 0)
 	{
+		// pthread_mutex_lock(&philo->root->death[philo->id]);
 		check_if_philo_is_dead(philo);
+		if (philo->root->dead_philo == 1)
+				exit(1) ;
+		// exit(1);
+		// pthread_mutex_unlock(&philo->root->death[philo->id]);
 		if (philo->id % 2 == 0)
 			usleep(5000);
 		philo_is_eating(philo);

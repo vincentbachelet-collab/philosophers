@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 13:12:03 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 00:29:34 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	p_thread_join(t_root *infos)
 			ft_putendl_fd("Error_pthread_join\n", 2);
 			return (1);
 		}
-		if (i == infos->id_dead_philo && infos->dead_philo == 1)
-			return (1);
 	}
 	return (0);
 }
@@ -64,6 +62,7 @@ void	philo_left_right_fork_init(t_root *infos)
 		else if (infos->philo[i].id == 1)
 			infos->philo[i].fork_right_hand = 1;
 		infos->philo[i].has_eaten = 0;
+		infos->philo[i].last_meal = 0;
 		infos->philo[i].root = infos;
 	}
 }
@@ -81,9 +80,11 @@ int	p_thread_create_join(t_root *infos)
 
 int	thread_philo_creation(t_root *infos)
 {
-	if (pthread_mutex_init(infos->sleep, NULL) != 0 
+	if (pthread_mutex_init(infos->sleep, NULL) != 0
 		|| pthread_mutex_init(infos->death, NULL) != 0
-		|| pthread_mutex_init(infos->fork, NULL) != 0)
+		|| pthread_mutex_init(infos->fork, NULL) != 0
+		|| pthread_mutex_init(infos->print_death, NULL) != 0
+		|| pthread_mutex_init(infos->check_death, NULL) != 0)
 	{
 		ft_putendl_fd("Error_mutex_init\n", 2);
 		free_malloc_and_exit(infos, 1);
@@ -93,5 +94,7 @@ int	thread_philo_creation(t_root *infos)
 	pthread_mutex_destroy(infos->fork);
 	pthread_mutex_destroy(infos->sleep);
 	pthread_mutex_destroy(infos->death);
+	pthread_mutex_destroy(infos->print_death);
+	pthread_mutex_destroy(infos->check_death);
 	return (0);
 }

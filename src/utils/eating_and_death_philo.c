@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 13:26:09 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 00:17:13 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,28 @@ int	check_if_number_of_has_been_eaten(t_philo *philo)
 }
 
 int	check_if_philo_is_dead(t_philo *philo)
-{
-	struct timeval	count;
-	struct timeval	end;
-	int				time_since_last_lunch = 0;
-	
+{	
 	pthread_mutex_lock(&philo->root->death[philo->id]);
-	gettimeofday(&count, 0);
-	time_since_last_lunch = 0;
-	while (time_since_last_lunch <= philo->root->time_to_die)
+	// if (philo->root->time_to_die * 1000 < philo->root->time_to_eat)
+	// {
+	// 	pthread_mutex_lock(&philo->root->death[philo->id]);
+	// 	printf("%d ms: PHILO %d IS DEAD\n ", get_current_time(philo), philo->id);
+	// 	philo->root->dead_philo = 1;
+	// 	pthread_mutex_unlock(&philo->root->death);
+	// }
+	// printf("\nsince LAST MEAL     ====   %d\n"
+	// 	   "------------------------\n"
+	// 	   "philo->root->time_to_die =   %d\n", (get_current_time(philo) - philo->last_meal), philo->root->time_to_die);
+	pthread_mutex_lock(&philo->root->death[philo->id]);
+	if (get_current_time(philo) - philo->last_meal >= philo->root->time_to_die)
 	{
-		gettimeofday(&end, 0);
-		time_since_last_lunch = (end.tv_sec * 1000 + end.tv_usec / 1000) \
-		- (count.tv_sec * 1000 +  count.tv_usec / 1000);
-		printf("time_since_last_lunch == %d -- time to die == %d\n", time_since_last_lunch, philo->root->time_to_die);
-		if	(time_since_last_lunch == philo->root->time_to_die)
-		{
-			printf("%d ms: philo %d is DEAD\n", time_since_last_lunch, philo->id);
-			philo->id = philo->root->id_dead_philo;
-			philo->root->dead_philo = 1;
-			return (TRUE);
-		}
+		pthread_mutex_lock(&philo->root->print_death[philo->id]);
+		printf("%d ms: PHILO %d IS DEAD\n ", get_current_time(philo), philo->id);
+		philo->root->dead_philo = 1;
+		usleep(50000);
+		pthread_mutex_unlock(&philo->root->print_death[philo->id]);
 	}
+		usleep(500);
 	pthread_mutex_unlock(&philo->root->death[philo->id]);
 	return (FALSE);
 }
