@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/14 19:40:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 12:56:38 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,12 @@
 
 int	check_if_number_of_has_been_eaten(t_philo *philo)
 {
-	// int	i;
-	int j;
-
-	// i = 0;
-	j = 0;
-	if (philo->root->number_of_philosophers % 2 == 0)
-		j = philo->root->number_of_philosophers;
-	else
-		j = philo->root->number_of_philosophers - 1;
-	if (philo->id == j) // a ne pas init ici
+	if ((philo->id == philo->root->number_of_philosophers)
+		&& (philo->root->number_of_times_each_philosopher_must_eat 
+		== philo->has_eaten))
 	{
-		if (philo->has_eaten == philo->root->number_of_times_each_philosopher_must_eat)
-			return (TRUE); 	
-		else
-			return (FALSE);
+		printf("EVERYONE IS FED, congratulations\n");
+		return (TRUE);
 	}
 	return (FALSE);
 }
@@ -36,26 +27,27 @@ int	check_if_number_of_has_been_eaten(t_philo *philo)
 int	check_if_philo_is_dead(t_philo *philo)
 {
 	struct timeval	count;
-	int				time_since_last_lunch;
+	struct timeval	end;
+	int				time_since_last_lunch = 0;
 	int				current_time;
 	
 	pthread_mutex_lock(&philo->root->death[philo->id]);
 	current_time = get_current_time(philo);
 	gettimeofday(&count, 0);
-	// gettimeofday(&philo->root->end, 0);
-	while (time_since_last_lunch <= philo->root->time_to_eat)
+	time_since_last_lunch = 0;
+	while (time_since_last_lunch <= philo->root->time_to_die)
 	{
 		usleep(50);
-		gettimeofday(&philo->root->end, 0);
-		time_since_last_lunch = (philo->root->end.tv_sec * 1000
-		+ philo->root->end.tv_usec / 1000) \
+		gettimeofday(&end, 0);
+		time_since_last_lunch = (end.tv_sec * 1000 + end.tv_usec / 1000) \
 		- ( count.tv_sec * 1000 +  count.tv_usec / 1000);
 		if	(time_since_last_lunch == philo->root->time_to_die)
 		{
-			printf("%d ms: philo %d is DEAD\n", current_time, philo->id);
+			printf("%d ms: philo %d is DEAD\n", time_since_last_lunch, philo->id);
 			return (TRUE);
 		}
 	}
+	return (FALSE);
 	pthread_mutex_unlock(&philo->root->death[philo->id]);
 	return (FALSE);
 }
