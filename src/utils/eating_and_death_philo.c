@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 13:14:00 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:26:09 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	check_if_philo_is_dead(t_philo *philo)
 	time_since_last_lunch = 0;
 	while (time_since_last_lunch <= philo->root->time_to_die)
 	{
-		usleep(50);
 		gettimeofday(&end, 0);
 		time_since_last_lunch = (end.tv_sec * 1000 + end.tv_usec / 1000) \
-		- ( count.tv_sec * 1000 +  count.tv_usec / 1000);
+		- (count.tv_sec * 1000 +  count.tv_usec / 1000);
+		printf("time_since_last_lunch == %d -- time to die == %d\n", time_since_last_lunch, philo->root->time_to_die);
 		if	(time_since_last_lunch == philo->root->time_to_die)
 		{
 			printf("%d ms: philo %d is DEAD\n", time_since_last_lunch, philo->id);

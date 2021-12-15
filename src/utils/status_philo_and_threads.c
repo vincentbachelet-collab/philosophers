@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:52:51 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 13:11:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:21:13 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ void	*philo_has_taken_a_fork(void *arg)
 	// 	printf("%d ms: philo %d is DEAD\n", get_current_time(philo), philo->id);
 	// 	exit (1);
 	// }
-	while (1) // rajouter condition tant que philo non mort
+	while (philo->root->dead_philo != 1) // rajouter condition tant que philo non mort
 	{
+		check_if_philo_is_dead(philo);
 		if (philo->id % 2 == 0)
 			usleep(5000);
 		philo_is_eating(philo);
