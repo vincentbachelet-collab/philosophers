@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 12:49:40 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:11:52 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ typedef struct s_root {
 	int				number_of_philosophers;
 	int				time_to_die;
 	int				time_to_eat;
-	int				time_to_sleep;		
+	int				time_to_sleep;	
+	int				id_dead_philo;	
+	int				dead_philo;
 	int				number_of_times_each_philosopher_must_eat;
 	struct timeval	start;
 	struct timeval	end;

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 12:56:38 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:14:00 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ int	check_if_philo_is_dead(t_philo *philo)
 	struct timeval	count;
 	struct timeval	end;
 	int				time_since_last_lunch = 0;
-	int				current_time;
 	
 	pthread_mutex_lock(&philo->root->death[philo->id]);
-	current_time = get_current_time(philo);
 	gettimeofday(&count, 0);
 	time_since_last_lunch = 0;
 	while (time_since_last_lunch <= philo->root->time_to_die)
@@ -44,10 +42,11 @@ int	check_if_philo_is_dead(t_philo *philo)
 		if	(time_since_last_lunch == philo->root->time_to_die)
 		{
 			printf("%d ms: philo %d is DEAD\n", time_since_last_lunch, philo->id);
+			philo->id = philo->root->id_dead_philo;
+			philo->root->dead_philo = 1;
 			return (TRUE);
 		}
 	}
-	return (FALSE);
 	pthread_mutex_unlock(&philo->root->death[philo->id]);
 	return (FALSE);
 }

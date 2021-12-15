@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 12:49:30 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/15 13:12:03 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	p_thread_join(t_root *infos)
 			ft_putendl_fd("Error_pthread_join\n", 2);
 			return (1);
 		}
+		if (i == infos->id_dead_philo && infos->dead_philo == 1)
+			return (1);
 	}
 	return (0);
 }
