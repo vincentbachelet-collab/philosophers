@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 00:29:34 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 00:44:36 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	p_thread_join(t_root *infos)
 	i = 0;
 	while (++i <= infos->number_of_philosophers)
 	{
-		if (pthread_join(infos->philo[i].thread, 0) != 0)
+		if (pthread_join(infos->philo[i].thread, 0) != 0
+			|| pthread_join(infos->philo[i].philo_death, 0) != 0)
 		{
 			ft_putendl_fd("Error_pthread_join\n", 2);
 			return (1);
@@ -36,7 +37,9 @@ int	p_thread_create(t_root *infos)
 	while (++i <= infos->number_of_philosophers)
 	{
 		if (pthread_create(&infos->philo[i].thread, NULL,
-			&philo_has_taken_a_fork, &infos->philo[i]) != 0)
+			&philo_has_taken_a_fork, &infos->philo[i]) != 0
+			|| pthread_create(&infos->philo[i].philo_death, NULL,
+			&check_if_philo_is_dead, &infos->philo[i]) != 0 )
 		{
 			ft_putendl_fd("Error_pthread_create_init\n", 2);
 			return (1);

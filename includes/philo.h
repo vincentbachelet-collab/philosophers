@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 00:10:38 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 00:53:47 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_root {
 	int				id_dead_philo;	
 	int				dead_philo;
 	int				number_of_times_each_philosopher_must_eat;
+	int				everyone_has_eaten;
 	struct timeval	start;
 	struct timeval	end;
 	pthread_mutex_t	fork[255];
@@ -67,7 +68,7 @@ int		philo_eat_pair_impair(t_root *infos);
 int		p_thread_create_join(t_root *infos);
 void	init_count_has_eaten(t_root *infos);
 int		check_if_number_of_has_been_eaten(t_philo *philo);
-int		check_if_philo_is_dead(t_philo *philo);
+void*	check_if_philo_is_dead(void *arg);
 void	*philo_is_sleeping(t_philo *philo);
 int		get_current_time(t_philo *philo);
 

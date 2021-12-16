@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 15:10:42 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 00:17:13 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 01:17:41 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,36 @@ int	check_if_number_of_has_been_eaten(t_philo *philo)
 		&& (philo->root->number_of_times_each_philosopher_must_eat 
 		== philo->has_eaten))
 	{
+		philo->root->everyone_has_eaten = 1;
 		printf("EVERYONE IS FED, congratulations\n");
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	check_if_philo_is_dead(t_philo *philo)
+void*	check_if_philo_is_dead(void *arg)
 {	
-	pthread_mutex_lock(&philo->root->death[philo->id]);
-	// if (philo->root->time_to_die * 1000 < philo->root->time_to_eat)
-	// {
-	// 	pthread_mutex_lock(&philo->root->death[philo->id]);
-	// 	printf("%d ms: PHILO %d IS DEAD\n ", get_current_time(philo), philo->id);
-	// 	philo->root->dead_philo = 1;
-	// 	pthread_mutex_unlock(&philo->root->death);
-	// }
-	// printf("\nsince LAST MEAL     ====   %d\n"
-	// 	   "------------------------\n"
-	// 	   "philo->root->time_to_die =   %d\n", (get_current_time(philo) - philo->last_meal), philo->root->time_to_die);
-	pthread_mutex_lock(&philo->root->death[philo->id]);
-	if (get_current_time(philo) - philo->last_meal >= philo->root->time_to_die)
+	t_philo	*philo;
+
+	philo = ((t_philo *)arg);
+	while (philo->root->everyone_has_eaten == 0 || philo->root->dead_philo == 0)
 	{
-		pthread_mutex_lock(&philo->root->print_death[philo->id]);
-		printf("%d ms: PHILO %d IS DEAD\n ", get_current_time(philo), philo->id);
-		philo->root->dead_philo = 1;
-		usleep(50000);
-		pthread_mutex_unlock(&philo->root->print_death[philo->id]);
+		while (philo->root->dead_philo == 0)
+		{	
+			pthread_mutex_lock(&philo->root->death[philo->id]);
+			if (get_current_time(philo) - philo->last_meal >= philo->root->time_to_die)
+			{
+				pthread_mutex_lock(&philo->root->print_death[philo->id]);
+				printf("%d ms: PHILO %d IS DEAD\n ", get_current_time(philo), philo->id);
+				philo->root->dead_philo = 1;
+				// break ;
+				pthread_mutex_unlock(&philo->root->print_death[philo->id]);
+			}
+			pthread_mutex_unlock(&philo->root->death[philo->id]);
+			usleep(500);
+		}
+		if (philo->root->dead_philo == 1 )
+			break ;
 	}
-		usleep(500);
-	pthread_mutex_unlock(&philo->root->death[philo->id]);
-	return (FALSE);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:52:51 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 00:15:57 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 01:16:16 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,10 @@ void	*philo_has_taken_a_fork(void *arg)
 	int		current_time;
 
 	philo = ((t_philo *)arg);
-	// if (philo->root->dead_philo == 1)
-	// {
-	// 	exit(1);
-	// }
-	// check_if_philo_is_dead(philo);
-	// if (philo->id % 2 == 0)
-	// 	usleep(5000);
-	check_if_philo_is_dead(philo);
+	if (philo->id % 2 == 0)
+			usleep(5000);
 	while(philo->root->dead_philo == 0)
 	{
-		// pthread_mutex_lock(&philo->root->death[philo->id]);
-		check_if_philo_is_dead(philo);
-		if (philo->root->dead_philo == 1)
-				exit(1) ;
-		// exit(1);
-		// pthread_mutex_unlock(&philo->root->death[philo->id]);
-		if (philo->id % 2 == 0)
-			usleep(5000);
 		philo_is_eating(philo);
 		if (check_if_number_of_has_been_eaten(philo) == TRUE)
 			return (0);
