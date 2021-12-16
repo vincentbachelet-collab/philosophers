@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 00:44:36 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 19:01:11 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ int	p_thread_create(t_root *infos)
 	while (++i <= infos->number_of_philosophers)
 	{
 		if (pthread_create(&infos->philo[i].thread, NULL,
-			&philo_has_taken_a_fork, &infos->philo[i]) != 0
-			|| pthread_create(&infos->philo[i].philo_death, NULL,
-			&check_if_philo_is_dead, &infos->philo[i]) != 0 )
+			&philo_has_taken_a_fork, &infos->philo[i]) != 0)
+			//|| pthread_create(&infos->philo[i].philo_death, NULL,
+			//&check_if_philo_is_dead, &infos->philo[i]) != 0 )
 		{
 			ft_putendl_fd("Error_pthread_create_init\n", 2);
 			return (1);
 		}
 	}
+	While(1)
+		//checker en permanence si quelqu'un est mort ou le nombre de repas et faire la boucle join si la condition a ete rempli
 	return (0);
 }
 
@@ -66,6 +68,7 @@ void	philo_left_right_fork_init(t_root *infos)
 			infos->philo[i].fork_right_hand = 1;
 		infos->philo[i].has_eaten = 0;
 		infos->philo[i].last_meal = 0;
+		infos->philo[i].is_eating = 0;
 		infos->philo[i].root = infos;
 	}
 }
@@ -87,6 +90,7 @@ int	thread_philo_creation(t_root *infos)
 		|| pthread_mutex_init(infos->death, NULL) != 0
 		|| pthread_mutex_init(infos->fork, NULL) != 0
 		|| pthread_mutex_init(infos->print_death, NULL) != 0
+		|| pthread_mutex_init(infos->check_death, NULL) != 0
 		|| pthread_mutex_init(infos->check_death, NULL) != 0)
 	{
 		ft_putendl_fd("Error_mutex_init\n", 2);
@@ -99,5 +103,6 @@ int	thread_philo_creation(t_root *infos)
 	pthread_mutex_destroy(infos->death);
 	pthread_mutex_destroy(infos->print_death);
 	pthread_mutex_destroy(infos->check_death);
+	pthread_mutex_destroy(infos->is_eating);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 00:53:47 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/16 15:46:21 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct philo
 	int				id;
 	int				has_eaten;
 	int				last_meal;
+	int				is_eating;
 	struct s_root	*root;
 	struct timeval	count;
 	pthread_t		thread;
@@ -51,6 +52,7 @@ typedef struct s_root {
 	pthread_mutex_t	death[255];
 	pthread_mutex_t	print_death[255];
 	pthread_mutex_t	check_death[255];
+	pthread_mutex_t	is_eating[255];
 	t_philo			philo[255];
 }	t_root;
 
