@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_create_and_init.c                           :+:      :+:    :+:   */
+/*   create_and_init.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 19:01:11 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/17 16:39:32 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	p_thread_join(t_root *infos)
 	i = 0;
 	while (++i <= infos->number_of_philosophers)
 	{
-		if (pthread_join(infos->philo[i].thread, 0) != 0
-			|| pthread_join(infos->philo[i].philo_death, 0) != 0)
+		if (pthread_join(infos->philo[i].thread, 0) != 0)
+			// || pthread_join(infos->philo[i].philo_death, 0) != 0)
 		{
 			ft_putendl_fd("Error_pthread_join\n", 2);
 			return (1);
@@ -38,15 +38,25 @@ int	p_thread_create(t_root *infos)
 	{
 		if (pthread_create(&infos->philo[i].thread, NULL,
 			&philo_has_taken_a_fork, &infos->philo[i]) != 0)
-			//|| pthread_create(&infos->philo[i].philo_death, NULL,
-			//&check_if_philo_is_dead, &infos->philo[i]) != 0 )
+			// || pthread_create(&infos->philo[i].philo_death, NULL,
+			// &check_if_philo_is_dead, &infos->philo[i]) != 0)
 		{
 			ft_putendl_fd("Error_pthread_create_init\n", 2);
 			return (1);
 		}
 	}
-	While(1)
-		//checker en permanence si quelqu'un est mort ou le nombre de repas et faire la boucle join si la condition a ete rempli
+	i = 0;
+	while (1)
+	{
+		i = 0;
+		while (++i <= infos->number_of_philosophers)
+		{
+			usleep(50);
+			if ((check_if_philo_is_dead(infos, i) == 1) || infos->everyone_has_eaten == 1)
+				return (0);
+		}
+	}
+	// 	//checker en permanence si quelqu'un est mort ou le nombre de repas et faire la boucle join si la condition a ete rempli
 	return (0);
 }
 
@@ -90,8 +100,9 @@ int	thread_philo_creation(t_root *infos)
 		|| pthread_mutex_init(infos->death, NULL) != 0
 		|| pthread_mutex_init(infos->fork, NULL) != 0
 		|| pthread_mutex_init(infos->print_death, NULL) != 0
+		|| pthread_mutex_init(infos->is_eating, NULL) != 0
 		|| pthread_mutex_init(infos->check_death, NULL) != 0
-		|| pthread_mutex_init(infos->check_death, NULL) != 0)
+		|| pthread_mutex_init(infos->has_eaten, NULL) != 0)
 	{
 		ft_putendl_fd("Error_mutex_init\n", 2);
 		free_malloc_and_exit(infos, 1);
@@ -104,5 +115,6 @@ int	thread_philo_creation(t_root *infos)
 	pthread_mutex_destroy(infos->print_death);
 	pthread_mutex_destroy(infos->check_death);
 	pthread_mutex_destroy(infos->is_eating);
+	pthread_mutex_destroy(infos->has_eaten);
 	return (0);
 }

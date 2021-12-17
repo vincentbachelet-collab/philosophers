@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/16 15:46:21 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/17 16:22:20 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_root {
 	pthread_mutex_t	print_death[255];
 	pthread_mutex_t	check_death[255];
 	pthread_mutex_t	is_eating[255];
+	pthread_mutex_t	has_eaten[255];
 	t_philo			philo[255];
 }	t_root;
 
@@ -69,9 +70,10 @@ int		numbers_of_philosophers_is_pair(t_root *infos);
 int		philo_eat_pair_impair(t_root *infos);
 int		p_thread_create_join(t_root *infos);
 void	init_count_has_eaten(t_root *infos);
-int		check_if_number_of_has_been_eaten(t_philo *philo);
-void*	check_if_philo_is_dead(void *arg);
+int		check_if_number_of_has_been_eaten(t_root *infos, int i);
+int		a_philo_is_dead(t_root *infos, int i);
 void	*philo_is_sleeping(t_philo *philo);
 int		get_current_time(t_philo *philo);
+int		check_if_philo_is_dead(t_root *infos, int i);
 
 #endif
