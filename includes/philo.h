@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/17 16:22:20 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:45:03 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ typedef struct s_root {
 	struct timeval	end;
 	pthread_mutex_t	fork[255];
 	pthread_mutex_t	sleep[255];
-	pthread_mutex_t	death[255];
-	pthread_mutex_t	print_death[255];
-	pthread_mutex_t	check_death[255];
-	pthread_mutex_t	is_eating[255];
-	pthread_mutex_t	has_eaten[255];
+	pthread_mutex_t	death;
+	pthread_mutex_t	last_meal;
+	pthread_mutex_t	is_eating;
+	pthread_mutex_t	has_eaten;
+	pthread_mutex_t	all_meals_eaten;
+	pthread_mutex_t	blabla;
 	t_philo			philo[255];
 }	t_root;
 
@@ -63,7 +64,7 @@ int		ft_isdigit(int c);
 void	ft_putendl_fd(char *s, int fd);
 void	*routine(void *arg);
 int		thread_philo_creation(t_root *infos);
-int		init_infos_philo(t_root *infos, char **argv);
+int		init_infos_philo(t_root *infos, char **argv, int argc);
 void	*philo_has_taken_a_fork(void *arg);
 int		free_malloc_and_exit(t_root *infos, int i);
 int		numbers_of_philosophers_is_pair(t_root *infos);
@@ -75,5 +76,10 @@ int		a_philo_is_dead(t_root *infos, int i);
 void	*philo_is_sleeping(t_philo *philo);
 int		get_current_time(t_philo *philo);
 int		check_if_philo_is_dead(t_root *infos, int i);
-
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
+int		philo_is_eating(t_philo *philo);
+int		check_if_everyone_has_eaten(t_philo *philo);
+void	*philo_is_sleeping(t_philo *philo);
+int		a_philo_has_eaten_his_meals(t_philo *philo);
 #endif

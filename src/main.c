@@ -6,16 +6,11 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:55:25 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/15 22:57:45 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:44:28 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// int	check_death(t_root *infos)
-// {
-	
-// }
 
 int	main(int argc, char **argv)
 {
@@ -24,8 +19,10 @@ int	main(int argc, char **argv)
 	memset(&infos, 0, sizeof infos);
 	if (argc == 6 || argc == 5)
 	{
-		errors_start_handling(infos, argv);
-		init_infos_philo(infos, argv);
+		if (errors_start_handling(infos, argv) == 1)
+			return (1);
+		if (init_infos_philo(infos, argv, argc) == 1)
+			return (1);
 		thread_philo_creation(infos);
 	}
 	else

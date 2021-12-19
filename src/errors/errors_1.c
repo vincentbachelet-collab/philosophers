@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 14:21:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/13 17:53:21 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/19 19:28:34 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	errors_start_handling(t_root *infos, char **argv)
 	int	i;
 	int	j;
 
+	(void) infos;
 	i = 1;
 	while (argv[i])
 	{
@@ -26,7 +27,7 @@ int	errors_start_handling(t_root *infos, char **argv)
 		if (argv[i][j] != 0)
 		{
 			printf ("Arguments are not integers\n");
-			free_malloc_and_exit(infos, 1);
+			return (1);
 		}
 		i++;
 	}

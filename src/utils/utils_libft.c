@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 14:50:26 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/13 14:56:23 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/19 17:12:48 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,12 @@ int	ft_atoi(const char *nptr)
 	else if (nb > 9223372036854775807 && sign == -1)
 		return (0);
 	return (nb * sign);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	while (s && *s)
+		write(fd, s++, 1);
 }
