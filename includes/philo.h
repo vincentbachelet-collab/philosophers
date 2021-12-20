@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/20 15:47:19 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:50:32 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ typedef struct philo
 
 typedef struct s_root {
 	int				number_of_philosophers;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;	
+	long long		time_to_die;
+	long long		time_to_eat;
+	long long		time_to_sleep;	
 	int				id_dead_philo;	
 	int				dead_philo;
 	int				number_of_times_each_philosopher_must_eat;
