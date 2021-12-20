@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:57:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/19 18:35:34 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:25:16 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	p_thread_join(t_root *infos)
 {
-	int i; 
+	int	i;
 
 	i = 0;
 	while (++i <= infos->number_of_philosophers)
@@ -30,13 +30,13 @@ int	p_thread_join(t_root *infos)
 
 int	p_thread_create(t_root *infos)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (++i <= infos->number_of_philosophers)
 	{
 		if (pthread_create(&infos->philo[i].thread, NULL,
-			&philo_has_taken_a_fork, &infos->philo[i]) != 0)
+				&philo_has_taken_a_fork, &infos->philo[i]) != 0)
 		{
 			ft_putendl_fd("Error_pthread_create_init\n", 2);
 			return (1);
@@ -60,9 +60,9 @@ int	p_thread_create(t_root *infos)
 void	philo_left_right_fork_init(t_root *infos)
 {
 	int	i;
-	
+
 	i = 0;
-	while (++i <= infos->number_of_philosophers) 
+	while (++i <= infos->number_of_philosophers)
 	{
 		infos->philo[i].id = i;
 		if (infos->philo[i].id != 1)
@@ -82,7 +82,6 @@ void	philo_left_right_fork_init(t_root *infos)
 
 int	p_thread_create_join(t_root *infos)
 {
-	
 	philo_left_right_fork_init(infos);
 	if (p_thread_create(infos) == 1)
 		free_malloc_and_exit(infos, 1);

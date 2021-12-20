@@ -6,20 +6,21 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:52:51 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/19 20:43:50 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:27:17 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		get_current_time(t_philo *philo)
+int	get_current_time(t_philo *philo)
 {
-	int current_time;
-	
+	int	current_time;
+
 	gettimeofday(&philo->root->end, 0);
 	current_time = (philo->root->end.tv_sec * 1000
-		+ philo->root->end.tv_usec / 1000) \
-		- (philo->root->start.tv_sec * 1000 + philo->root->start.tv_usec / 1000);
+			+ philo->root->end.tv_usec / 1000) \
+			- (philo->root->start.tv_sec * 1000
+			+ philo->root->start.tv_usec / 1000);
 	return (current_time);
 }
 
@@ -31,7 +32,6 @@ void	print_philo_is_thinking(t_philo *philo, int current_time)
 	ft_putnbr_fd(philo->id, 1);
 	ft_putstr_fd(" is thinking\n", 1);
 	pthread_mutex_unlock(&philo->root->blabla);
-
 }
 
 void	*philo_has_taken_a_fork(void *arg)

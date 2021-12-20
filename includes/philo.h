@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 11:03:40 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/19 19:45:03 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:34:31 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,8 @@ int		philo_is_eating(t_philo *philo);
 int		check_if_everyone_has_eaten(t_philo *philo);
 void	*philo_is_sleeping(t_philo *philo);
 int		a_philo_has_eaten_his_meals(t_philo *philo);
+int		a_philo_is_dead(t_root *infos, int i);
+int		philo_is_dead_mutex(t_root *infos);
+int		time_since_last_meal(t_root *infos, int i);
+
 #endif

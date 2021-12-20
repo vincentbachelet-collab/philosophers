@@ -1,5 +1,16 @@
-#include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   eat_philo.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/20 14:25:30 by vbachele          #+#    #+#             */
+/*   Updated: 2021/12/20 14:26:28 by vbachele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "philo.h"
 
 int	check_if_everyone_has_eaten(t_philo *philo)
 {
@@ -13,11 +24,12 @@ int	check_if_everyone_has_eaten(t_philo *philo)
 	return (0);
 }
 
-int a_philo_has_eaten_his_meals(t_philo *philo)
+int	a_philo_has_eaten_his_meals(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->root->has_eaten);
 	if (philo->root->number_of_times_each_philosopher_must_eat
-		&& philo->has_eaten == philo->root->number_of_times_each_philosopher_must_eat)
+		&& philo->has_eaten
+		== philo->root->number_of_times_each_philosopher_must_eat)
 	{
 		pthread_mutex_unlock(&philo->root->has_eaten);
 		return (1);
@@ -30,7 +42,7 @@ void	philo_is_eating_mutex(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->root->is_eating);
 	pthread_mutex_lock(&philo->root->has_eaten);
-	philo->is_eating = 1; // mettre un lock 
+	philo->is_eating = 1;
 	philo->has_eaten++;
 	pthread_mutex_unlock(&philo->root->has_eaten);
 	pthread_mutex_unlock(&philo->root->is_eating);
@@ -67,8 +79,8 @@ void	print_philo_is_eating(t_philo *philo, int current_time)
 
 int	philo_is_eating(t_philo *philo)
 {
-	
-	int current_time;
+	int	current_time;
+
 	pthread_mutex_lock(&philo->root->fork[philo->fork_left_hand]);
 	pthread_mutex_lock(&philo->root->fork[philo->fork_right_hand]);
 	current_time = get_current_time(philo);

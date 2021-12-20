@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:52:52 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/19 20:25:42 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/20 14:23:35 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,3 @@ int	init_infos_philo(t_root *infos, char **argv, int argc)
 	gettimeofday(&infos->start, 0);
 	return (0);
 }
-
