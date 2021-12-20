@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 14:25:30 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/20 14:26:28 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:07:41 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	philo_is_eating(t_philo *philo)
 {
 	int	current_time;
 
+	if (philo->root->number_of_philosophers == 1)
+		return (0);
 	pthread_mutex_lock(&philo->root->fork[philo->fork_left_hand]);
 	pthread_mutex_lock(&philo->root->fork[philo->fork_right_hand]);
 	current_time = get_current_time(philo);

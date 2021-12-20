@@ -6,7 +6,7 @@
 /*   By: vbachele <vbachele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:52:51 by vbachele          #+#    #+#             */
-/*   Updated: 2021/12/20 14:27:17 by vbachele         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:01:42 by vbachele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ void	print_philo_is_thinking(t_philo *philo, int current_time)
 	pthread_mutex_unlock(&philo->root->blabla);
 }
 
+int	check_if_a_philo_is_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->root->death);
+	if (philo->root->dead_philo == 1)
+	{
+		pthread_mutex_unlock(&philo->root->death);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->root->death);
+	return (0);
+}
+
 void	*philo_has_taken_a_fork(void *arg)
 {
 	t_philo	*philo;
@@ -44,13 +56,8 @@ void	*philo_has_taken_a_fork(void *arg)
 		usleep(5000);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->root->death);
-		if (philo->root->dead_philo == 1)
-		{
-			pthread_mutex_unlock(&philo->root->death);
+		if (check_if_a_philo_is_dead(philo) == 1)
 			return (0);
-		}
-		pthread_mutex_unlock(&philo->root->death);
 		philo_is_eating(philo);
 		if (check_if_everyone_has_eaten(philo) == 1)
 			return (0);
